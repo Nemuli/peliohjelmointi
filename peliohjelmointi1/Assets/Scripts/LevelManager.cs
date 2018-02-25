@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    //Helmi Kinnunen 
+    //Luotu 31.1.2018
+
     public GameObject currentCheckpoint;
     private PlayerController player;
+
+    public GameObject deathParticle;
+    public GameObject respawnParticle;
+
+    public int respawnDelay;
 
     // Use this for initialization
     void Start()
@@ -21,9 +29,21 @@ public class LevelManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        Debug.Log("Player respawn");
-        player.transform.position = currentCheckpoint.transform.position;
+        StartCoroutine("RespawnPlayerCo");
     }
 
+    public IEnumerator RespawnPlayerCo()
+    {
+        Instantiate(deathParticle, player.transform.position, player.transform.rotation);
+        player.enabled = false;
+        player.GetComponent<Renderer>().enabled = false;
+        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        Debug.Log("Player respawn");
+        yield return new WaitForSeconds(respawnDelay);
+        player.transform.position = currentCheckpoint.transform.position;
+        player.enabled = true;
+        player.GetComponent<Renderer>().enabled = true;
 
+        Instantiate(respawnParticle, currentCheckpoint.transform.position, currentCheckpoint.transform.rotation);
+    }
 }

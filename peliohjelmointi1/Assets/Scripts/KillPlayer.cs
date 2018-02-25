@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class KillPlayer : MonoBehaviour
 {
+    //Helmi Kinnunen 
+    //Luotu 31.1.2018
+
     public LevelManager levelManager;
 
     // Use this for initialization
